@@ -14,7 +14,22 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::orderBy('created_at', 'DESC')->get();
+        if ($tasks)
+        {
+            return response([
+                'message' => 'Tasks successfull retrieved',
+                'code' => '200',
+                'status' => 'true',
+                'list' => $tasks
+            ]);
+        }else{
+            return response([
+                'message' => 'No list of tasks found',
+                'code' => '200',
+                'status' => 'false'
+            ]);
+        }
     }
 
     /**
