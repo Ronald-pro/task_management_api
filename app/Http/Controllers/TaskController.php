@@ -125,7 +125,31 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title'=>'required'
+        ]);
+
+        $task = Task::find($id);
+        if ($task)
+        {
+            $task->title = $request->title;
+            $task->description = $request->description;
+            $task->priority = $request->priority;
+            $task->due_date = $request->due_date;
+            $task->update();
+            return response([
+                'message' => 'Task Updated Successfully',
+                'code' => '200',
+                'status' => 'true',
+                'task' => $task
+            ]);
+        } else {
+            return response([
+                'message' => 'Task not found',
+                'code' => '404',
+                'status' => 'false'
+            ]);
+        }
     }
 
     /**
