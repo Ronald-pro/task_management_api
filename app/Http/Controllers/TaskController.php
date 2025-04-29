@@ -18,17 +18,15 @@ class TaskController extends Controller
         if ($tasks)
         {
             return response([
+                'success' => 'true',
                 'message' => 'Tasks successfull retrieved',
-                'code' => '200',
-                'status' => 'true',
-                'list' => $tasks
-            ]);
+                'data' => $tasks
+            ], 200);
         }else{
             return response([
+                'success' => 'false'
                 'message' => 'No list of tasks found',
-                'code' => '200',
-                'status' => 'false'
-            ]);
+            ], 404);
         }
     }
 
@@ -63,18 +61,16 @@ class TaskController extends Controller
 
         if ($task)
         {
-            return response([
+            return response->json([
+                'success' => 'true',
                 'message' => 'successfully created the task',
-                'code' => '200',
-                'status' => 'true',
-                'task' => $task
-            ]);
+                'data' => $task
+            ], 201);
         } else {
             return response([
-                'message' => 'could not create the task',
-                'code' => '200',
-                'status' => 'false'
-            ]);
+                'success' => 'false'
+                'message' => 'could not create the task'
+            ], 500);
         }
 
     }
@@ -90,18 +86,16 @@ class TaskController extends Controller
         $task = Task::find($id);
         if ($task)
         {
-            return response([
+            return response->json([
+                'success' => 'true',
                 'message' => 'Task Found Successfully',
-                'code' => '200',
-                'status' => 'true',
-                'task' => $task
-            ]);
+                'data' => $task
+            ], 200);
         } else {
             return response([
+                'success' => 'false'
                 'message' => 'Task not found',
-                'code' => '404',
-                'status' => 'false'
-            ]);
+            ], 404);
         }
     }
 
@@ -137,18 +131,17 @@ class TaskController extends Controller
             $task->priority = $request->priority;
             $task->due_date = $request->due_date;
             $task->update();
-            return response([
+            return response()->json([
                 'message' => 'Task Updated Successfully',
                 'code' => '200',
                 'status' => 'true',
-                'task' => $task
+                'data' => $task
             ]);
         } else {
-            return response([
-                'message' => 'Task not found',
-                'code' => '404',
-                'status' => 'false'
-            ]);
+            return response()->json([
+                'success' => 'false'
+                'message' => 'Could not update the task',
+            ], 500);
         }
     }
 
@@ -164,17 +157,15 @@ class TaskController extends Controller
         if ($task)
         {
             $task->delete();
-            return response([
+            return response()->json([
+                'success' => 'true'
                 'message' => 'Task Deleted Successfully',
-                'code' => '200',
-                'status' => 'true'
-            ]);
+            ], 200);
         } else {
-            return response([
-                'message' => 'Task not found',
-                'code' => '404',
-                'status' => 'false'
-            ]);
+            return response()->json([
+                'success' => 'false'
+                'message' => 'Could not delete task',
+            ], 500);
         }
     }
 }
